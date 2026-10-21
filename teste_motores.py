@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# testttt
 """
 teste_motores.py - bancada de teste: 4x JGB37-520 (encoder Hall) + 2x MD10C
                    no Raspberry Pi 3.
