@@ -301,36 +301,9 @@ O HelMoRo tem sensores parecidos com os seus (LiDAR Slamtec, Astra Pro, BNO055, 
 
 ## 11. Escrita do TCC (LaTeX)
 
-**Instalação no notebook (Arch):**
-```bash
-sudo pacman -Syu
-sudo pacman -S texstudio texlive-basic texlive-latex texlive-latexrecommended texlive-latexextra \
-  texlive-fontsrecommended texlive-langportuguese texlive-publishers texlive-bibtexextra \
-  texlive-pictures texlive-mathscience biber
-```
+Os comandos de instalação, compilação e correção do LaTeX estão em `comandosLatex.md`.
 
-Se der erro 404 de servidor, atualize os mirrors:
-```bash
-sudo reflector --country Brazil --protocol https --age 12 --sort rate --save /etc/pacman.d/mirrorlist
-sudo pacman -Syyu
-```
-
-**Template da FGA** (https://github.com/fga-unb/template-latex-tcc). O Docker do README não é necessário. Para usar com pdflatex, e assim poder usar figuras PNG e JPG:
-```bash
-git clone https://github.com/fga-unb/template-latex-tcc.git tcc && cd tcc/latex
-ps2pdf -dEPSCrop figuras/capa.eps figuras/capa.pdf
-ps2pdf -dEPSCrop figuras/fig01.eps figuras/fig01.pdf
-sed -i 's/capa\.eps/capa.pdf/' fixos/customizacoes.sty
-sed -i 's/fig01\.eps/fig01.pdf/' editaveis/elementosdotexto.tex
-```
-
-**No TeXstudio:**
-
-1. Abra `latex/tcc.tex`.
-2. Em Opções → Configurar → Construção, escolha **PdfLaTeX** como compilador e **BibTeX** como bibliografia.
-3. Compile com **F5**. Se as referências aparecerem como **?**, rode **F8** e depois F5 de novo.
-
-**Arquivos:** edite só a pasta `editaveis/`. Os dados do trabalho ficam em `editaveis/informacoes.tex`.
+- Arquivo principal: `main.tex`. Capítulos escritos: `editaveis/hardware.tex` e `editaveis/software.tex`.
 
 ---
 

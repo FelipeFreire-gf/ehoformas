@@ -31,6 +31,14 @@ Rio de Janeiro, 2011. 15~p.}
   for turbulence. In:  \emph{Proceedings of the 10th Brazilian Congress of
   Mechanical Engineering}. [S.l.: s.n.], 1989. v.~1, p. 41--44.}
 
+\bibitem[Bosch Sensortec 2026]{bno055}
+\abntrefinfo{Bosch Sensortec}{BOSCH SENSORTEC}{2026}
+{BOSCH SENSORTEC. \emph{{BNO055}: Intelligent 9-axis absolute orientation
+  sensor -- Data sheet}.
+[S.l.], 2026. Dispon{\'\i}vel em:
+  \url{https://www.bosch-sensortec.com/products/smart-sensor-systems/bno055/}.
+  Acesso em: 28 out. 2026.}
+
 \bibitem[Clark 1986]{clark1986}
 \abntrefinfo{Clark}{CLARK}{1986}
 {CLARK, J.~A. Private communication.
@@ -41,11 +49,90 @@ University of Michigan, 1986.}
 {COIMBRA, A.~L. Lessons of continuum mechanics.
 São Paulo, Brazil, p.~428, 1978.}
 
+\bibitem[Cytron Technologies 2026]{cytronmd10c}
+\abntrefinfo{Cytron Technologies}{CYTRON TECHNOLOGIES}{2026}
+{CYTRON TECHNOLOGIES. \emph{{MD10C} {R3}: User's Manual}.
+[S.l.], 2026. Dispon{\'\i}vel em:
+  \url{https://www.cytron.io/p-10amp-5v-30v-dc-motor-driver}. Acesso em: 28
+  out. 2026.}
+
+\bibitem[Flynn 2026]{bno055ros}
+\abntrefinfo{Flynn}{FLYNN}{2026}
+{FLYNN, E. \emph{bno055: {ROS} 2 driver for the {Bosch} {BNO055} {IMU}}.
+[S.l.], 2026. Dispon{\'\i}vel em: \url{https://github.com/flynneva/bno055}.
+  Acesso em: 28 out. 2026.}
+
+\bibitem[Helbling Technik 2026]{helmoro}
+\abntrefinfo{Helbling Technik}{HELBLING TECHNIK}{2026}
+{HELBLING TECHNIK. \emph{{HelMoRo}: Helbling Mobile Robot}.
+[S.l.], 2026. Dispon{\'\i}vel em:
+  \url{https://helbling-technik.github.io/HelMoRo/}. Acesso em: 28 out. 2026.}
+
 \bibitem[INMETRO 2013]{inmetro2003}
 \abntrefinfo{INMETRO}{INMETRO}{2013}
 {INMETRO. \emph{Vocabulário internacional de termos fundamentais e gerais de
   metrologia}.
 Rio de Janeiro, Brasil, 2013. 75~p.}
+
+\bibitem[Joan 2026]{pigpio}
+\abntrefinfo{Joan}{JOAN}{2026}
+{JOAN. \emph{pigpio library}.
+[S.l.], 2026. Dispon{\'\i}vel em: \url{https://abyz.me.uk/rpi/pigpio/}. Acesso
+  em: 28 out. 2026.}
+
+\bibitem[Kennedy e Eberhart 1995]{kennedy1995pso}
+\abntrefinfo{Kennedy e Eberhart}{KENNEDY; EBERHART}{1995}
+{KENNEDY, J.; EBERHART, R. Particle swarm optimization. In:  \emph{Proceedings
+  of ICNN'95 -- International Conference on Neural Networks}. [S.l.: s.n.],
+  1995. v.~4, p. 1942--1948.}
+
+\bibitem[Macenski et al. 2022]{macenski2022ros2}
+\abntrefinfo{Macenski et al.}{MACENSKI et al.}{2022}
+{MACENSKI, S. et al. Robot operating system 2: Design, architecture, and uses
+  in the wild.
+\emph{Science Robotics}, v.~7, n.~66, 2022.
+Eabm6074.}
+
+\bibitem[Macenski e Jambrecic 2021]{macenski2021slam}
+\abntrefinfo{Macenski e Jambrecic}{MACENSKI; JAMBRECIC}{2021}
+{MACENSKI, S.; JAMBRECIC, I. {SLAM} toolbox: {SLAM} for the dynamic world.
+\emph{Journal of Open Source Software}, v.~6, n.~61, p.~2783, 2021.}
+
+\bibitem[Macenski et al. 2020]{macenski2020nav2}
+\abntrefinfo{Macenski et al.}{MACENSKI et al.}{2020}
+{MACENSKI, S. et al. The marathon 2: A navigation system. In:  \emph{IEEE/RSJ
+  International Conference on Intelligent Robots and Systems (IROS)}. [S.l.:
+  s.n.], 2020.}
+
+\bibitem[Moore e Stouch 2016]{moore2016ekf}
+\abntrefinfo{Moore e Stouch}{MOORE; STOUCH}{2016}
+{MOORE, T.; STOUCH, D. A generalized extended {Kalman} filter implementation
+  for the {Robot Operating System}. In:  \emph{Intelligent Autonomous Systems
+  13}. [S.l.]: Springer, 2016. p. 335--348.}
+
+\bibitem[Orbbec 2026]{orbbecastra}
+\abntrefinfo{Orbbec}{ORBBEC}{2026}
+{ORBBEC. \emph{Astra Series: especificações}.
+[S.l.], 2026. Dispon{\'\i}vel em: \url{https://www.orbbec.com/}. Acesso em: 28
+  out. 2026.}
+
+\bibitem[Raspberry Pi Ltd 2026]{raspberrypi}
+\abntrefinfo{Raspberry Pi Ltd}{RASPBERRY PI LTD}{2026}
+{RASPBERRY PI LTD. \emph{Raspberry Pi 3 Model B: documentação}.
+[S.l.], 2026. Dispon{\'\i}vel em:
+  \url{https://www.raspberrypi.com/documentation/}. Acesso em: 28 out. 2026.}
+
+\bibitem[Siegwart, Nourbakhsh e Scaramuzza 2011]{siegwart2011}
+\abntrefinfo{Siegwart, Nourbakhsh e Scaramuzza}{SIEGWART; NOURBAKHSH;
+  SCARAMUZZA}{2011}
+{SIEGWART, R.; NOURBAKHSH, I.~R.; SCARAMUZZA, D. \emph{Introduction to
+  Autonomous Mobile Robots}. 2. ed. Cambridge: MIT Press, 2011.}
+
+\bibitem[Slamtec 2026]{rplidarc1}
+\abntrefinfo{Slamtec}{SLAMTEC}{2026}
+{SLAMTEC. \emph{{RPLIDAR} {C1}: datasheet}.
+[S.l.], 2026. Dispon{\'\i}vel em: \url{https://www.slamtec.com/en/C1}. Acesso
+  em: 28 out. 2026.}
 
 \bibitem[Soviero e Lavagna 1997]{soviero1997}
 \abntrefinfo{Soviero e Lavagna}{SOVIERO; LAVAGNA}{1997}

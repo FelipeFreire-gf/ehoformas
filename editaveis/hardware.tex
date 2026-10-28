@@ -1,0 +1,286 @@
+\chapter[Arquitetura de Hardware]{Arquitetura de Hardware}
+\label{cap:hardware}
+
+Este capítulo descreve os componentes físicos do robô, os critérios que
+orientaram a escolha de cada um, o princípio de funcionamento de cada
+componente e a forma como eles se integram. O robô é uma plataforma de
+tração nas quatro rodas (4WD) que deve mapear um ambiente com um sensor
+LiDAR e uma câmera de profundidade e, em seguida, deslocar-se de forma
+autônoma até um ponto escolhido no mapa. Esses dois objetivos determinam
+as exigências sobre o hardware: o robô precisa medir o próprio
+deslocamento (odometria), perceber o ambiente ao redor e transmitir esses
+dados a um computador com capacidade para processá-los.
+
+A Tabela~\ref{tab:componentes} resume os componentes adotados. As seções
+seguintes detalham cada um deles.
+
+\begin{table}[htb]
+	\centering
+	\caption{Componentes de hardware do robô}
+	\label{tab:componentes}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Função} & \textbf{Componente} \\ \hline
+		Processamento embarcado & Raspberry Pi 3 (1~GB de RAM) \\ \hline
+		Estrutura & Chassi 4WD de 20~cm $\times$ 21~cm \\ \hline
+		Atuação & 4 motores JGB37-520 (12~V, 333~rpm) \\ \hline
+		Odometria & Encoders Hall em quadratura (11~PPR) \\ \hline
+		Acionamento & 2 drivers Cytron MD10C R3 \\ \hline
+		Orientação & IMU Bosch BNO055 (UART) \\ \hline
+		Percepção 2D & LiDAR Slamtec RPLIDAR C1 \\ \hline
+		Percepção 3D & Câmera Orbbec Astra Pro \\ \hline
+		Comunicação & Adaptador Wi-Fi USB (RTL8188EU) \\ \hline
+		Energia & Bateria LiPo 4S com BMS e dois conversores \textit{buck} \\ \hline
+	\end{tabular}
+	\legend{Fonte: Autor.}
+\end{table}
+
+\section{Unidade de processamento embarcada}
+
+A unidade de processamento embarcada é um Raspberry Pi 3, um computador de
+placa única com processador ARM Cortex-A53 de quatro núcleos e 1~GB de
+memória RAM \cite{raspberrypi}. Ele foi escolhido por rodar um sistema
+Linux completo, o que permite usar o ROS~2 e as bibliotecas dos sensores
+sem precisar escrever drivers do zero. Ele também tem uma barra de 40
+pinos de propósito geral (GPIO), com dois canais de PWM por hardware, uma
+interface UART e portas USB. Essas interfaces bastam para ligar todos os
+componentes do robô sem placas adicionais.
+
+O Raspberry Pi 3 tem pouca capacidade de processamento e de memória para
+executar ao mesmo tempo o mapeamento simultâneo (SLAM), a navegação e a
+visualização. Por isso, ele foi usado apenas como computador de interface
+com o hardware. Ele lê os sensores, aciona os motores e envia os dados por
+Wi-Fi a um notebook, onde roda o processamento pesado. Essa divisão está
+descrita no Capítulo~\ref{cap:software}. Para liberar memória, a placa
+opera sem interface gráfica e é acessada remotamente por SSH.
+
+\section{Chassi, motores e encoders}
+
+A plataforma mecânica é um chassi 4WD de 20~cm de largura por 21~cm de
+comprimento, com rodas de 8~cm de diâmetro. O robô é do tipo
+\textit{skid-steer}: as rodas não giram em torno de um eixo vertical, e as
+curvas são feitas girando os dois lados com velocidades diferentes. Essa
+configuração foi adotada por ser mecanicamente simples e por ter boa tração
+em pisos irregulares. Em troca, as rodas escorregam lateralmente durante
+as curvas, e isso afeta a odometria, como discutido na
+Seção~\ref{sec:integracao-sw}.
+
+Cada roda é movida por um motorredutor JGB37-520 de 12~V com velocidade
+nominal de 333~rpm no eixo de saída. A escolha considerou a tensão,
+compatível com a bateria por meio de um conversor, o torque oferecido pela
+caixa de redução e, principalmente, o encoder já integrado ao motor. Com
+rodas de 8~cm, a velocidade linear teórica sem carga é
+\begin{equation}
+	\label{eq:vmax}
+	v_{max} = \pi D \frac{n}{60} = \pi \cdot 0{,}08 \cdot \frac{333}{60}
+	\approx 1{,}4~\text{m/s},
+\end{equation}
+em que $D$ é o diâmetro da roda em metros e $n$ é a velocidade do eixo em
+rpm. Esse valor está bem acima do necessário para mapear ambientes
+internos, o que deixa margem para operar em velocidades baixas, que
+favorecem a qualidade do mapa.
+
+O encoder de cada motor tem dois sensores de efeito Hall dispostos em
+torno de um ímã preso ao eixo do motor, antes da redução. Quando o ímã
+gira, cada sensor gera uma onda quadrada com 11 pulsos por volta do eixo
+do motor (PPR). Os dois sinais, chamados A e B, ficam defasados de
+90\textdegree. Esse arranjo é chamado de quadratura. A ordem em que os
+sinais mudam de nível indica o sentido de giro, e contar as quatro bordas
+de cada ciclo (decodificação $\times$4) multiplica a resolução por quatro.
+O número de contagens por volta da roda é então
+\begin{equation}
+	\label{eq:cpr}
+	N_{CPR} = 4 \cdot PPR \cdot i,
+\end{equation}
+em que $i$ é a relação de redução da caixa. Com esse valor, a distância
+percorrida pela roda em um intervalo com $\Delta N$ contagens é
+\begin{equation}
+	\label{eq:deslocamento}
+	\Delta s = \pi D \frac{\Delta N}{N_{CPR}}.
+\end{equation}
+% TODO: preencher com o CPR_SAIDA medido pelo teste_motores.py encoder.
+O valor de $N_{CPR}$ é medido experimentalmente girando a roda um número
+conhecido de voltas, conforme descrito na Seção~\ref{sec:bancada}.
+
+Os dois motores de cada lado recebem o mesmo comando, então medir uma
+roda por lado basta para estimar a velocidade daquele lado. Por isso, só
+os encoders dos motores dianteiros estão ligados ao Raspberry Pi. Os
+traseiros recebem apenas alimentação. Assim são usadas quatro entradas
+digitais em vez de oito, e a carga de interrupções no processador também
+cai pela metade.
+
+\section{Drivers de motor}
+
+Os pinos do Raspberry Pi fornecem poucos miliampères a 3,3~V. Por isso, os
+motores são acionados por dois drivers Cytron MD10C R3, um para cada lado
+do robô, com os dois motores daquele lado ligados em paralelo. O MD10C é
+uma ponte H, um circuito com quatro chaves eletrônicas (MOSFETs) que
+liga os terminais do motor à alimentação em uma polaridade ou na outra
+\cite{cytronmd10c}. Ele foi escolhido por operar na faixa de tensão do
+robô, por suportar com folga a corrente de dois motores em paralelo e por
+ser controlado com apenas dois sinais lógicos compatíveis com 3,3~V.
+% TODO: conferir no manual do MD10C R3 a faixa de tensão (5-30 V) e a
+% corrente continua e de pico, e citar os valores aqui.
+
+O controle segue o esquema sinal-magnitude. O pino DIR define o sentido
+de giro, e o pino PWM recebe uma onda quadrada cujo ciclo de trabalho
+(\textit{duty cycle}) define a fração do tempo em que a ponte fica
+ligada. Como o motor responde à média da tensão aplicada, o ciclo de
+trabalho controla a velocidade. O PWM é gerado pelos periféricos de PWM
+por hardware do Raspberry Pi nos pinos GPIO12 e GPIO13, a 10~kHz. A
+geração por hardware não depende do agendamento do sistema operacional,
+então a frequência fica estável mesmo com o processador ocupado. Nos
+pinos de PWM há resistores de 10~k$\Omega$ para o terra, que mantêm os
+motores parados durante a inicialização do sistema, enquanto os pinos
+ainda não foram configurados.
+
+\section{Unidade de medição inercial}
+
+A odometria por encoders é pouco confiável para estimar a orientação de
+um robô \textit{skid-steer}, porque as rodas escorregam nas curvas. Para
+medir a rotação de forma independente, foi usada a unidade de medição
+inercial (IMU) Bosch BNO055. Ela reúne acelerômetro, giroscópio e
+magnetômetro de três eixos e tem um microcontrolador interno que executa
+a fusão dos sensores e fornece a orientação já calculada, na forma de
+quatérnios ou ângulos de Euler \cite{bno055}. Isso tira do Raspberry Pi o
+trabalho de calibração e de fusão e é o principal motivo da escolha.
+
+O BNO055 aceita I$^2$C ou UART, e a interface é escolhida pelos pinos PS0
+e PS1. Foi adotada a UART (PS0 em nível baixo e PS1 em nível alto),
+ligada aos pinos GPIO14 e GPIO15 com TX e RX cruzados. O sensor usa
+\textit{clock stretching} no barramento I$^2$C, recurso que o controlador
+I$^2$C do Raspberry Pi não trata de forma confiável. A UART evita esse
+problema. O sensor é alimentado pelo pino de 3,3~V da própria placa.
+
+\section{Sensor LiDAR}
+
+O sensor principal de mapeamento é o LiDAR Slamtec RPLIDAR C1. Ele gira
+um feixe laser em 360\textdegree{} e mede a distância até o obstáculo mais
+próximo em cada direção pelo tempo de voo da luz \cite{rplidarc1}. No
+robô, o driver identificou o sensor operando em modo padrão com 5~mil
+medidas por segundo e 10 voltas por segundo, ou seja, cerca de 500 pontos
+por volta. Cada volta forma uma varredura 2D do plano em que o sensor
+está, a 10~cm do chão, e essa varredura é a entrada do algoritmo de SLAM.
+% TODO: citar o alcance e a resolucao angular do datasheet do C1.
+
+O C1 foi escolhido por ter custo baixo, ter driver oficial para ROS~2
+(\texttt{sllidar\_ros2}) e alcance compatível com ambientes internos. Ele
+se comunica por UART a 460800~baud por meio de um adaptador USB-serial
+CP210x, ligado a uma porta USB do Raspberry Pi. O sensor foi instalado
+aproximadamente no centro do chassi, de modo que a posição medida fique
+próxima do centro de rotação do robô.
+
+\section{Câmera de profundidade}
+
+Para perceber obstáculos fora do plano do LiDAR, como mesas, degraus e
+objetos baixos, o robô tem uma câmera de profundidade Orbbec Astra Pro.
+Ela projeta um padrão de luz infravermelha estruturada sobre a cena e
+calcula a distância de cada pixel pela deformação desse padrão, observada
+por uma câmera infravermelha \cite{orbbecastra}. A câmera também tem um
+sensor RGB convencional. No robô, as duas partes aparecem como
+dispositivos USB distintos: o RGB pela classe UVC e a profundidade pelo
+SDK OpenNI2 da fabricante.
+
+Nos testes, a profundidade foi lida a cerca de 30 quadros por segundo.
+Abaixo de aproximadamente 0,6~m a câmera não retorna medida, e esse é o
+seu alcance mínimo. A câmera foi escolhida pela disponibilidade e por ter
+drivers para ROS~2. O uso dela na navegação está previsto para uma etapa
+posterior, com resolução reduzida (320$\times$240 a 15 quadros por
+segundo) para caber na capacidade do Raspberry Pi 3 e na banda da rede.
+
+\section{Alimentação}
+
+A energia vem de uma bateria LiPo de quatro células em série (4S), com
+tensão de 16,8~V quando carregada e circuito de proteção (BMS). Essa
+química foi escolhida pela relação entre energia e massa. Uma bateria de
+chumbo-ácido de 12~V e 7~Ah também foi avaliada e descartada: ela pesa
+cerca de 2,1~kg, contra 0,3~kg a 0,5~kg da LiPo, e sua tensão de 11,5~V a
+12,8~V é baixa demais para alimentar o conversor de 12~V.
+
+A tensão da bateria é distribuída por dois conversores CC-CC abaixadores
+(\textit{buck}), cada um com uma chave própria:
+
+\begin{itemize}
+	\item um conversor de 12~V alimenta os dois MD10C (chave SW1). Como a
+	tensão nos drivers fica regulada na tensão nominal dos motores, o
+	ciclo de trabalho pode chegar a 100\% sem sobretensão, e a velocidade
+	para um mesmo ciclo de trabalho deixa de depender da carga da
+	bateria;
+	\item um conversor de 5~V e 5~A alimenta o Raspberry Pi (chave SW2,
+	com voltímetro), que por sua vez alimenta pelas portas USB o LiDAR, a
+	câmera e o adaptador Wi-Fi.
+\end{itemize}
+
+Separar a alimentação dos motores da alimentação da lógica evita que os
+picos de corrente na partida dos motores derrubem a tensão do computador.
+Mesmo assim, durante os testes o Raspberry Pi indicou subtensão
+(\texttt{vcgencmd get\_throttled} retornou \texttt{0x70005}). Isso
+provocou redução de frequência do processador e reconexões dos
+dispositivos USB. A causa provável é a queda de tensão no cabo micro-USB
+e no fusível de entrada da placa quando o LiDAR, a câmera e o Wi-Fi
+funcionam juntos. A correção prevista é alimentar a placa diretamente
+pelos pinos de 5~V da barra de GPIO, com fio curto e de bitola maior, e,
+se necessário, trocar o conversor por um ajustável regulado entre 5,15~V
+e 5,2~V. % TODO: atualizar quando a correcao for feita e testada.
+
+\section{Integração dos componentes}
+\label{sec:integracao-hw}
+
+% Quando a figura abaixo for descomentada, troque o inicio da frase por
+% "A Figura~\ref{fig:pinagem} e a Tabela~\ref{tab:pinagem} mostram".
+A Tabela~\ref{tab:pinagem} mostra como os
+componentes se ligam ao Raspberry Pi. Eles usam três tipos de interface:
+
+\begin{itemize}
+	\item \textbf{GPIO}: os sinais PWM e DIR dos drivers e os canais A e B
+	dos encoders. Os encoders são alimentados com 3,3~V, então seus sinais
+	já chegam no nível lógico do Raspberry Pi, sem conversor de nível;
+	\item \textbf{UART}: a IMU BNO055;
+	\item \textbf{USB}: o LiDAR, pelo adaptador CP210x, a câmera Astra Pro
+	e o adaptador Wi-Fi.
+\end{itemize}
+
+\begin{table}[htb]
+	\centering
+	\caption{Ligações no Raspberry Pi 3 (numeração BCM e pino físico)}
+	\label{tab:pinagem}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\textbf{Função} & \textbf{GPIO} & \textbf{Pino} \\ \hline
+		MD10C esquerdo -- PWM & 12 & 32 \\ \hline
+		MD10C esquerdo -- DIR & 17 & 11 \\ \hline
+		MD10C direito -- PWM & 13 & 33 \\ \hline
+		MD10C direito -- DIR & 22 & 15 \\ \hline
+		Encoder dianteiro esquerdo -- A / B & 23 / 24 & 16 / 18 \\ \hline
+		Encoder dianteiro direito -- A / B & 25 / 5 & 22 / 29 \\ \hline
+		BNO055 -- TX / RX & 14 / 15 & 8 / 10 \\ \hline
+		Buzzer & 18 & 12 \\ \hline
+		Alimentação dos encoders e da IMU & 3,3~V & 1 / 17 \\ \hline
+	\end{tabular}
+	\legend{Fonte: Autor.}
+\end{table}
+
+% Copie pinagem_robo4wd.png para a pasta figuras/ e descomente:
+% \begin{figure}[htb]
+% 	\centering
+% 	\includegraphics[width=\textwidth]{figuras/pinagem_robo4wd.png}
+% 	\caption{Pinagem do Raspberry Pi 3 no robô}
+% 	\label{fig:pinagem}
+% 	\legend{Fonte: Autor.}
+% \end{figure}
+
+Todos os circuitos compartilham o mesmo terra, que é a referência comum
+para os sinais lógicos entre o Raspberry Pi, os drivers e os sensores. Os
+pinos de terra foram distribuídos pela barra apenas para deixar cada fio
+de terra próximo do seu sinal. Os fios de potência dos motores ficam
+separados dos fios dos encoders para reduzir o ruído induzido nos sinais
+de quadratura.
+
+Na escolha dos pinos, dois pontos foram levados em conta. Primeiro, o
+GPIO18, usado pelo buzzer, está ligado internamente ao mesmo canal de PWM
+(PWM0) que o GPIO12. Por isso o buzzer é acionado apenas em liga/desliga
+ou por PWM por software, por meio de um transistor BC548 com resistor de
+base de 1~k$\Omega$. Segundo, a saída de áudio analógico do Raspberry Pi
+usa os mesmos periféricos de PWM e foi desabilitada para não interferir
+nos motores. O esquemático completo foi desenhado no Proteus (revisão
+1.1).

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.28)  28 OCT 2026 14:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.28)  28 OCT 2026 14:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -869,7 +869,7 @@ Package epstopdf Info: Source file: <figuras/capa.eps>
 (epstopdf)                    date: 2026-10-28 16:37:26
 (epstopdf)                    size: 649636 bytes
 (epstopdf)             Output file: <figuras/capa-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:11:52
+(epstopdf)                    date: 2026-10-28 14:33:38
 (epstopdf)                    size: 106109 bytes
 (epstopdf)             Command: <repstopdf --outfile=figuras/capa-eps-converted
 -to.pdf figuras/capa.eps>
@@ -878,7 +878,7 @@ runsystem(repstopdf --outfile=figuras/capa-eps-converted-to.pdf figuras/capa.ep
 s)...executed safely (allowed).
 
 Package epstopdf Info: Result file: <figuras/capa-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:11:54
+(epstopdf)                    date: 2026-10-28 14:36:04
 (epstopdf)                    size: 106109 bytes.
 <figuras/capa-eps-converted-to.pdf, id=5, 814.04124pt x 1150.2975pt>
 File: figuras/capa-eps-converted-to.pdf Graphic file (type pdf)
@@ -1017,52 +1017,99 @@ s/enc/dvips/lm/lm-mathsy.enc}] [24
 ])
 (./fixos/indiceautomatico.tex (./main.toc
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 12.
+(Font)              <14.4> on input line 39.
+ [25]) [26])
+(./editaveis/introducao.tex) (./editaveis/hardware.tex [27
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [25])
-[26]) (./editaveis/introducao.tex) (./editaveis/aspectosgerais.tex [27
-
+] [28
 
 ]
-[28
-
-] [29] [30]
 Cap\'{\i }tulo 1.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+[29]
+! Undefined control sequence.
+l.76 	\approx 1{,}4~\text
+                         {m/s},
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 8
 7.
 (/usr/share/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [31
-
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
+)
 Package babel Info: 'brazil' activates 'portuges' shorthands.
-(babel)             Reported on input line 93.
- [32]
+(babel)             Reported on input line 111.
+ [30{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [31]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+67.
+ (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Overfull \hbox (1.04474pt too wide) in paragraph at lines 166--172
+[]\T1/lmr/m/n/12 O C1 foi es-co-lhido por ter custo baixo, ter dri-ver ofi-cial
+ para ROS 2 (\T1/lmtt/m/n/12 sllidar_ros2\T1/lmr/m/n/12 )
+ []
+
+[32]) (./editaveis/software.tex [33] [34]
+Cap\'{\i }tulo 2.
+
+Underfull \vbox (badness 1881) has occurred while \output is active []
+
+ [35
+
+]
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 55.
+
+[36]
+Overfull \hbox (51.05759pt too wide) in paragraph at lines 125--129
+\T1/lmr/m/n/12 C1 pela porta se-rial e pu-blica cada volta no tó-pico \T1/lmtt/
+m/n/12 /scan\T1/lmr/m/n/12 , como men-sa-gem \T1/lmtt/m/n/12 sensor_msgs/LaserS
+can\T1/lmr/m/n/12 .
+ []
+
+[37] [38{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+Overfull \hbox (0.79456pt too wide) in paragraph at lines 260--265
+[]\T1/lmr/m/n/12 A ár-vore de trans-for-ma-ções se-gue a ca-deia \T1/lmtt/m/n/1
+2 map$\OMS/lmsy/m/n/12 !$\T1/lmtt/m/n/12 odom$\OMS/lmsy/m/n/12 !$\T1/lmtt/m/n/1
+2 base_link$\OMS/lmsy/m/n/12 !$\T1/lmr/m/n/12 {\T1/lmtt/m/n/12 laser\T1/lmr/m/n
+/12 , \T1/lmtt/m/n/12 imu\T1/lmr/m/n/12 }.
+ []
+
+[39]) (./editaveis/aspectosgerais.tex [40] [41
+
+] [42]
+Cap\'{\i }tulo 3.
+[43
+
+] [44]
 Overfull \hbox (6.28964pt too wide) in paragraph at lines 141--143
 []\T1/lmr/m/n/12 Ainda com res-peito ao pre-en-chi-mento das pá-gi-nas, este de
 ve ser oti-mi-zado, evitando-
  []
 
-[33]) (./editaveis/consideracoes.tex [34]
-Cap\'{\i }tulo 2.
-[35
+[45]) (./editaveis/consideracoes.tex [46]
+Cap\'{\i }tulo 4.
+[47
 
-]) (./editaveis/textoepostexto.tex [36] [37
+]) (./editaveis/textoepostexto.tex [48] [49
 
-] [38])
+] [50])
 (./editaveis/elementosdotexto.tex
-Cap\'{\i }tulo 3.
-[39
+Cap\'{\i }tulo 5.
+[51
 
-] [40]
+] [52]
 Package epstopdf Info: Source file: <figuras/fig01.eps>
 (epstopdf)                    date: 2026-10-28 16:37:26
 (epstopdf)                    size: 2193446 bytes
 (epstopdf)             Output file: <figuras/fig01-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:11:53
-(epstopdf)                    size: 42036 bytes
+(epstopdf)                    date: 2026-10-28 14:33:39
+(epstopdf)                    size: 42031 bytes
 (epstopdf)             Command: <repstopdf --outfile=figuras/fig01-eps-converte
 d-to.pdf figuras/fig01.eps>
 (epstopdf)             \includegraphics on input line 115.
@@ -1070,64 +1117,63 @@ runsystem(repstopdf --outfile=figuras/fig01-eps-converted-to.pdf figuras/fig01.
 eps)...executed safely (allowed).
 
 Package epstopdf Info: Result file: <figuras/fig01-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:11:55
-(epstopdf)                    size: 42034 bytes.
-<figuras/fig01-eps-converted-to.pdf, id=332, 1204.5pt x 903.375pt>
+(epstopdf)                    date: 2026-10-28 14:36:05
+(epstopdf)                    size: 42031 bytes.
+<figuras/fig01-eps-converted-to.pdf, id=506, 1204.5pt x 903.375pt>
 File: figuras/fig01-eps-converted-to.pdf Graphic file (type pdf)
 <use figuras/fig01-eps-converted-to.pdf>
 Package pdftex.def Info: figuras/fig01-eps-converted-to.pdf  used on input line
  115.
 (pdftex.def)             Requested size: 361.35278pt x 271.01459pt.
- [41 <./figuras/fig01-eps-converted-to.pdf>] [42])
-(./editaveis/elementosdopostexto.tex [43] [44
+ [53 <./figuras/fig01-eps-converted-to.pdf>] [54])
+(./editaveis/elementosdopostexto.tex [55] [56
 
 ]
-Cap\'{\i }tulo 4.
-[45]) (./main.bbl (./main.brf)
+Cap\'{\i }tulo 6.
+[57]) (./main.bbl (./main.brf)
 \tf@brf=\write5
 \openout5 = `main.brf'.
 
- [46]
+ [58]
 bibitemlist
-) (./editaveis/apendices.tex [47
+[59
 
-] [48
-
-]
+]) (./editaveis/apendices.tex [60]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\uppercase' on input line 4.
 
-[49
+[61
 
-] [50]
+
+] [62]
 AP\^ENDICE A.
-[51
+[63
 
-] [52
+] [64
 
 ]
 AP\^ENDICE B.
-) (./editaveis/anexos.tex [53] [54
+) (./editaveis/anexos.tex [65] [66
 
 ]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\uppercase' on input line 4.
 
-[55
+[67
 
-] [56]
+] [68]
 ANEXO A.
-[57
+[69
 
-] [58
+] [70
 
 ]
 ANEXO B.
 )
 No file main.ind.
-[59]
+[71]
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
@@ -1145,31 +1191,33 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.brf' has not changed.
-(rerunfilecheck)             Checksum: 5554298EE9CB315C4F2B37CFE19B4732;436.
+(rerunfilecheck)             Checksum: C696FAC1DAB9879BBF03E1DAD008A8AB;1152.
  ) 
 Here is how much of TeX's memory you used:
- 17767 strings out of 469416
- 288518 string characters out of 5467572
- 726503 words of memory out of 5000000
- 45880 multiletter control sequences out of 15000+600000
- 721919 words of font info for 87 fonts, out of 8000000 for 9000
+ 18072 strings out of 469416
+ 293011 string characters out of 5467572
+ 731844 words of memory out of 5000000
+ 46104 multiletter control sequences out of 15000+600000
+ 731376 words of font info for 92 fonts, out of 8000000 for 9000
  42 hyphenation exceptions out of 8191
- 104i,13n,110p,688b,680s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 104i,13n,110p,688b,744s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dis
 t/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm
-/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/shar
-e/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1
-/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></u
-sr/share/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts
-/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.p
-fb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-di
-st/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf-dist/fonts/type1/public/l
-m/lmss17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/sh
-are/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-Output written on main.pdf (61 pages, 504867 bytes).
+/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/shar
+e/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf-dist/fonts/type
+1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></
+usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fon
+ts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.p
+fb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-di
+st/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/l
+m/lmss12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/shar
+e/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pf
+b></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
+Output written on main.pdf (73 pages, 616469 bytes).
 PDF statistics:
- 688 PDF objects out of 1000 (max. 8388607)
- 594 compressed objects within 6 object streams
- 144 named destinations out of 1000 (max. 500000)
- 399 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 988 PDF objects out of 1000 (max. 8388607)
+ 876 compressed objects within 9 object streams
+ 205 named destinations out of 1000 (max. 500000)
+ 599 words of extra memory for PDF output out of 10000 (max. 10000000)
 

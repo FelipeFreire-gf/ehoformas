@@ -1,0 +1,298 @@
+\chapter[Arquitetura de Software]{Arquitetura de Software}
+\label{cap:software}
+
+Este capítulo descreve o software do robô: a base do sistema operacional e
+das bibliotecas de acesso ao hardware, as ferramentas de teste
+desenvolvidas, a organização em nós do ROS~2 e a forma como os dados
+fluem entre os sensores, os algoritmos de mapeamento e navegação e os
+motores.
+
+\section{Visão geral}
+
+O software está dividido entre dois computadores que se comunicam por
+Wi-Fi. O critério da divisão é a capacidade de processamento. O Raspberry
+Pi 3 embarcado executa apenas o que precisa estar perto do hardware: os
+drivers dos sensores e o controle dos motores. O notebook, que funciona
+como estação de base, executa a fusão de sensores, o mapeamento, a
+navegação e a visualização, que exigem mais processador e memória. As duas
+partes usam a mesma distribuição do ROS~2, a Jazzy, o que garante que as
+mensagens trocadas sejam compatíveis.
+
+O desenvolvimento seguiu duas fases. Na primeira, cada componente foi
+validado isoladamente com programas próprios em Python e C, sem ROS
+(Seção~\ref{sec:bancada}). Na segunda, os componentes validados passam a
+ser integrados como nós do ROS~2 (Seções~\ref{sec:ros} a
+\ref{sec:integracao-sw}).
+
+\section{Sistema operacional e acesso ao hardware}
+
+O Raspberry Pi executa o Raspberry Pi OS ``Trixie'' de 64 bits, com
+Python 3.13. A interface gráfica foi desativada
+(\texttt{multi-user.target}) para liberar memória, e o acesso é feito por
+SSH a partir do notebook.
+
+O acesso aos pinos de GPIO é feito pela biblioteca pigpio \cite{pigpio}.
+Ela foi escolhida por três motivos. Ela dá acesso aos periféricos de PWM
+por hardware, necessários para acionar os MD10C com frequência estável.
+Ela amostra os pinos de entrada por DMA e entrega cada borda com o
+instante em que ocorreu, o que permite contar os pulsos dos encoders sem
+depender de interrupções do sistema operacional. E ela funciona como um
+serviço (\texttt{pigpiod}) que atende vários programas ao mesmo tempo. Uma
+consequência desse modelo é que o PWM continua ativo se o programa que o
+configurou terminar de forma anormal. Por isso, todos os programas que
+acionam motores zeram o PWM ao sair, e existe um comando de emergência
+para isso. Como o Trixie não traz o pacote da pigpio, ela foi compilada a
+partir do código-fonte.
+
+\section{Ferramentas de validação dos componentes}
+\label{sec:bancada}
+
+Antes da integração com o ROS~2, cada componente foi testado com um
+programa próprio. Isso permite separar defeitos de montagem de defeitos de
+software.
+
+\begin{itemize}
+	\item \textbf{\texttt{teste\_motores.py}}: bancada de teste dos
+	motores e encoders, executada com as rodas suspensas. Ela tem um modo
+	para cada etapa da caracterização. O modo \texttt{encoder} mede as
+	contagens por volta da roda (Eq.~\ref{eq:cpr}) e confere o sentido de
+	contagem. O modo \texttt{direcao} confere se cada lado gira no sentido
+	comandado e se o encoder concorda. O modo \texttt{varredura} aumenta o
+	ciclo de trabalho em passos de 5\% para levantar a zona morta e a
+	curva de velocidade em regime. O modo \texttt{degrau} aplica um degrau
+	de tensão e amostra a velocidade a 100~Hz para estimar a constante de
+	tempo dos motores. Todos os comandos passam por rampas, e o programa
+	interrompe o teste se um motor recebe tensão alta e o encoder não
+	registra movimento, o que indica roda travada ou encoder desligado;
+	\item \textbf{\texttt{teste\_encoders.py}}: mostra ao vivo os níveis
+	lógicos, o número de bordas de cada canal e a posição de cada
+	encoder, para diagnosticar fios soltos ou trocados;
+	\item \textbf{\texttt{controle\_wasd.py}}: teleoperação pelo teclado,
+	via SSH. Por segurança, o robô para sozinho se as teclas deixam de
+	chegar, se a conexão SSH cai ou se um motor trava;
+	\item \textbf{\texttt{lidar.py}} e \textbf{\texttt{ver\_lidar.py}}:
+	leitura do RPLIDAR C1 no Raspberry Pi e exibição das varreduras em
+	gráfico polar no notebook, com os dados enviados pela conexão SSH;
+	\item \textbf{\texttt{profundidade.py}} e
+	\textbf{\texttt{astra\_depth.c}}: leitura da profundidade da Astra Pro
+	e envio ao notebook como vídeo MJPEG colorido.
+\end{itemize}
+
+A leitura da câmera de profundidade exigiu uma solução específica. O
+pacote \texttt{openni} do repositório do Python não é compatível com o
+Python 3.12 ou mais recente. Depois de corrigido, ele ainda corrompia a
+memória, porque as estruturas de dados declaradas no pacote não
+correspondiam às da biblioteca da Orbbec. A solução foi escrever um
+programa em C compilado diretamente contra os cabeçalhos do SDK OpenNI2 da
+fabricante. Ele lê os quadros de profundidade e os repassa ao programa em
+Python. Na integração com o ROS~2, esse programa será substituído pelo
+driver da própria câmera e servirá apenas como ferramenta de teste.
+
+\section{ROS 2}
+\label{sec:ros}
+
+O ROS~2 (\textit{Robot Operating System 2}) é um conjunto de bibliotecas
+e ferramentas para software de robôs \cite{macenski2022ros2}. Um sistema
+em ROS~2 é formado por \textbf{nós}, processos independentes que trocam
+\textbf{mensagens} de tipos padronizados por meio de \textbf{tópicos} com
+nome. Um nó que publica em um tópico não precisa saber quais nós o
+assinam. Por isso, um driver de sensor pode ser trocado sem mudar os
+algoritmos que consomem seus dados. A comunicação usa o padrão DDS, que
+descobre automaticamente os nós presentes na rede local. Assim, nós que
+rodam em computadores diferentes se comunicam como se estivessem no mesmo
+computador. É esse recurso que permite dividir o sistema entre o
+Raspberry Pi e o notebook.
+
+O ROS~2 também mantém a árvore de transformações (TF), que registra a
+posição e a orientação relativas entre os sistemas de coordenadas do
+robô: o mapa, a origem da odometria, o centro do robô e cada sensor. Os
+algoritmos usam essa árvore para converter, por exemplo, um ponto medido
+pelo LiDAR para coordenadas do mapa.
+
+O ROS~2 Jazzy tem suporte oficial ao Ubuntu 24.04, mas não ao Raspberry Pi
+OS Trixie nem ao Arch Linux, que são os sistemas usados no projeto. No
+Raspberry Pi, ele foi instalado a partir do repositório comunitário
+\textit{rospian}, que distribui o Jazzy compilado para o Trixie arm64.
+Pacotes ausentes nesse repositório, como o driver do LiDAR, são compilados
+na própria placa com o \texttt{colcon}. No notebook, o ROS~2 roda em um
+contêiner Ubuntu 24.04 gerenciado pelo \textit{distrobox}, que compartilha
+a rede e a interface gráfica com o sistema principal.
+
+\section{Nós embarcados no Raspberry Pi}
+
+\subsection{Driver do LiDAR}
+
+O nó \texttt{sllidar\_node}, do pacote oficial \texttt{sllidar\_ros2} da
+Slamtec, lê o RPLIDAR C1 pela porta serial e publica cada volta no tópico
+\texttt{/scan}, como mensagem \texttt{sensor\_msgs/LaserScan}. Essa
+mensagem contém as distâncias medidas e os ângulos correspondentes.
+
+\subsection{Nó da base}
+
+Os drivers MD10C não têm controle de velocidade próprio. Eles só aplicam
+a tensão comandada. Por isso, o controle de velocidade das rodas roda no
+Raspberry Pi, em um nó próprio, chamado aqui de nó da base. Ele assina o
+tópico \texttt{/cmd\_vel}, que contém a velocidade linear $v$ e a
+velocidade angular $\omega$ desejadas para o robô, e calcula a velocidade
+de cada lado pelo modelo cinemático diferencial \cite{siegwart2011}:
+\begin{equation}
+	\label{eq:cinematica-inversa}
+	v_e = v - \omega \frac{L}{2}, \qquad v_d = v + \omega \frac{L}{2},
+\end{equation}
+em que $v_e$ e $v_d$ são as velocidades das rodas esquerda e direita e
+$L$ é a distância entre os centros das rodas dos dois lados.
+% TODO: medir L e citar o valor aqui.
+
+Cada lado tem um controlador PID que compara a velocidade desejada com a
+velocidade medida pelo encoder e calcula o ciclo de trabalho aplicado ao
+MD10C:
+\begin{equation}
+	\label{eq:pid}
+	u(t) = K_p\, e(t) + K_i \int_0^t e(\tau)\, d\tau + K_d \frac{de(t)}{dt},
+\end{equation}
+em que $e(t)$ é o erro de velocidade e $K_p$, $K_i$ e $K_d$ são os ganhos
+proporcional, integral e derivativo. Os parâmetros medidos na bancada (zona
+morta, curva de velocidade e constante de tempo) servem de ponto de
+partida para esses ganhos e para uma parcela de compensação direta
+(\textit{feedforward}).
+
+No sentido contrário, o nó da base converte as contagens dos encoders em
+velocidades das rodas (Eq.~\ref{eq:deslocamento}) e calcula a velocidade
+do robô pela cinemática direta:
+\begin{equation}
+	\label{eq:cinematica-direta}
+	v = \frac{v_d + v_e}{2}, \qquad \omega = \frac{v_d - v_e}{L}.
+\end{equation}
+Integrando essas velocidades ao longo do tempo, o nó estima a posição e a
+orientação do robô e as publica no tópico \texttt{/odom}
+(\texttt{nav\_msgs/Odometry}). Por segurança, o nó para os motores se
+nenhum comando chegar em um intervalo curto, o que cobre falhas de rede e
+travamentos na estação de base.
+
+\subsection{Driver da IMU}
+
+O driver \texttt{bno055} \cite{bno055ros} lê a IMU pela UART e publica a
+orientação, a velocidade angular e a aceleração no tópico \texttt{/imu}
+(\texttt{sensor\_msgs/Imu}).
+
+\subsection{Transformações estáticas}
+
+A posição de cada sensor em relação ao centro do robô
+(\texttt{base\_link}) é fixa e é publicada como transformação estática a
+partir de uma descrição do robô em URDF. Exemplos são a posição do LiDAR,
+próxima do centro do chassi e a 10~cm do chão, e a posição da IMU.
+
+\section{Nós executados na estação de base}
+
+\subsection{Fusão de sensores}
+
+O pacote \texttt{robot\_localization} implementa um filtro de Kalman
+estendido (EKF) que combina várias fontes de odometria em uma estimativa
+única do movimento \cite{moore2016ekf}. Em um robô \textit{skid-steer}, a
+rotação calculada pela Eq.~(\ref{eq:cinematica-direta}) é imprecisa,
+porque as rodas escorregam lateralmente nas curvas. Por isso, o filtro
+usa dos encoders apenas a velocidade linear $v$ e usa do giroscópio da IMU
+a velocidade angular $\omega$. Essa configuração é a mesma adotada no
+robô HelMoRo \cite{helmoro}, que tem sensores semelhantes aos deste
+trabalho. O filtro publica a transformação \texttt{odom}$\rightarrow$%
+\texttt{base\_link}. Por isso, o nó da base não deve publicá-la, para que
+a árvore de transformações não tenha duas fontes para o mesmo elo.
+
+\subsection{Mapeamento}
+
+O mapeamento usa o \texttt{slam\_toolbox} \cite{macenski2021slam}. Esse
+pacote resolve o problema de localização e mapeamento simultâneos (SLAM):
+ele constrói o mapa a partir das varreduras do LiDAR e, ao mesmo tempo,
+estima a posição do robô nesse mapa. A estimativa da odometria serve de
+ponto de partida para alinhar cada nova varredura com as anteriores.
+Quando o robô volta a um lugar já visitado, o pacote reconhece o lugar e
+corrige o erro acumulado no caminho (fechamento de laço). O resultado é
+um mapa de ocupação 2D, uma grade com células livres, ocupadas ou
+desconhecidas, com resolução de 5~cm. O mapa pode ser salvo e reutilizado
+na navegação. O \texttt{slam\_toolbox} publica a transformação
+\texttt{map}$\rightarrow$\texttt{odom}, que corrige a deriva da
+odometria.
+
+\subsection{Navegação}
+
+A navegação autônoma usa o Nav2 \cite{macenski2020nav2}. A partir do mapa,
+da posição estimada e de mapas de custo que representam os obstáculos e
+uma margem de segurança em torno deles, o Nav2 planeja um caminho até o
+ponto de destino. Em seguida, um controlador local gera os comandos de
+velocidade em \texttt{/cmd\_vel} que fazem o robô seguir esse caminho e
+desviar de obstáculos novos detectados pelo LiDAR. O destino é escolhido
+pelo usuário no RViz, a ferramenta de visualização do ROS~2.
+
+Os comandos de velocidade podem vir do Nav2 ou da teleoperação. O pacote
+\texttt{twist\_mux} escolhe entre essas fontes dando prioridade à
+teleoperação, para que o operador possa assumir o controle a qualquer
+momento.
+
+\section{Integração do software}
+\label{sec:integracao-sw}
+
+A Tabela~\ref{tab:topicos} resume os tópicos que ligam os nós. Os dados
+fluem em um ciclo fechado. O LiDAR, os encoders e a IMU publicam suas
+medidas no Raspberry Pi. O EKF, no notebook, combina a odometria das
+rodas com o giroscópio. O \texttt{slam\_toolbox} usa essa estimativa e as
+varreduras do LiDAR para construir o mapa e localizar o robô. O Nav2 usa
+o mapa e a localização para gerar comandos de velocidade. Esses comandos
+voltam ao Raspberry Pi, onde o nó da base os converte em tensão nos
+motores.
+
+\begin{table}[htb]
+	\centering
+	\caption{Principais tópicos do sistema}
+	\label{tab:topicos}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\textbf{Tópico} & \textbf{Tipo} & \textbf{Publicado por} & \textbf{Usado por} \\ \hline
+		\texttt{/scan} & \texttt{LaserScan} & \texttt{sllidar\_node} (Pi) & SLAM, Nav2 \\ \hline
+		\texttt{/odom} & \texttt{Odometry} & nó da base (Pi) & EKF \\ \hline
+		\texttt{/imu} & \texttt{Imu} & \texttt{bno055} (Pi) & EKF \\ \hline
+		\texttt{/odometry/filtered} & \texttt{Odometry} & EKF (notebook) & Nav2 \\ \hline
+		\texttt{/map} & \texttt{OccupancyGrid} & \texttt{slam\_toolbox} (notebook) & Nav2, RViz \\ \hline
+		\texttt{/cmd\_vel} & \texttt{Twist} & Nav2 ou teleoperação & nó da base (Pi) \\ \hline
+	\end{tabular}
+	\legend{Fonte: Autor.}
+\end{table}
+
+A árvore de transformações segue a cadeia
+\texttt{map}$\rightarrow$\texttt{odom}$\rightarrow$\texttt{base\_link}%
+$\rightarrow$\{\texttt{laser}, \texttt{imu}\}. Cada elo tem um único
+responsável: o \texttt{slam\_toolbox}, o EKF e a descrição do robô,
+respectivamente.
+
+Como os nós estão em computadores diferentes, a rede faz parte do
+sistema. Só passam pelo Wi-Fi as varreduras do LiDAR, que são pequenas,
+as mensagens de odometria e IMU e os comandos de velocidade. A câmera de
+profundidade terá resolução e taxa de quadros reduzidas para não saturar
+o enlace. A descoberta automática do DDS usa \textit{multicast}, que
+algumas redes institucionais bloqueiam. Nesse caso, a comunicação é feita
+por um roteador dedicado ou por um servidor de descoberta (\textit{Discovery
+Server}) do próprio DDS.
+
+\section{Ajuste dos controladores por enxame de partículas}
+
+Os ganhos dos controladores PID da Eq.~(\ref{eq:pid}) serão ajustados no
+robô físico por otimização por enxame de partículas (PSO)
+\cite{kennedy1995pso}. No PSO, cada partícula representa um conjunto
+candidato de ganhos $\mathbf{x}_i = (K_p, K_i, K_d)$. A cada iteração,
+sua velocidade e sua posição são atualizadas por
+\begin{equation}
+	\label{eq:pso}
+	\mathbf{v}_i \leftarrow w\,\mathbf{v}_i
+		+ c_1 r_1 (\mathbf{p}_i - \mathbf{x}_i)
+		+ c_2 r_2 (\mathbf{g} - \mathbf{x}_i), \qquad
+	\mathbf{x}_i \leftarrow \mathbf{x}_i + \mathbf{v}_i,
+\end{equation}
+em que $\mathbf{p}_i$ é a melhor posição já encontrada pela partícula,
+$\mathbf{g}$ é a melhor posição encontrada pelo enxame, $w$ é o peso de
+inércia, $c_1$ e $c_2$ são coeficientes de aceleração e $r_1$ e $r_2$ são
+números aleatórios entre 0 e 1. Cada avaliação consiste em aplicar os
+ganhos no robô, comandar uma sequência de velocidades e medir um índice
+de desempenho do erro de velocidade, como a integral do erro absoluto.
+Cada tentativa deve durar pelo menos cerca de cinco constantes de tempo
+do motor, medidas no ensaio de degrau, para que a roda tenha tempo de
+chegar ao regime. Para isso, o nó da base receberá os ganhos como
+parâmetros do ROS~2, que o otimizador pode trocar sem reiniciar o nó.
