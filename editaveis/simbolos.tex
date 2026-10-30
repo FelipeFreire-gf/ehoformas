@@ -1,6 +1,38 @@
+% Na ordem em que aparecem no texto (NBR 14724).
 \begin{simbolos}
-  \item[$ \Gamma $] Letra grega Gama
-  \item[$ \Lambda $] Lambda
-  \item[$ \zeta $] Letra grega minúscula zeta
-  \item[$ \in $] Pertence
+  \item[$ v_{max} $] Velocidade linear teórica máxima do robô [m/s]
+  \item[$ D $] Diâmetro da roda [m]
+  \item[$ n $] Velocidade do eixo de saída do motor [rpm]
+  \item[$ N_{CPR} $] Contagens do encoder por volta da roda
+  \item[$ R $] Relação de redução da caixa do motor
+  \item[$ \Delta N $] Contagens do encoder em um intervalo
+  \item[$ \Delta s $] Distância percorrida pela roda em um intervalo [m]
+  \item[$ v $] Velocidade linear do robô [m/s]
+  \item[$ \omega $] Velocidade angular do robô [rad/s]
+  \item[$ v_e,\ v_d $] Velocidades das rodas esquerda e direita [m/s]
+  \item[$ L $] Distância entre os centros das rodas esquerda e direita [m]
+  \item[$ u(t) $] Sinal de controle (ciclo de trabalho)
+  \item[$ e(t) $] Erro de velocidade
+  \item[$ K_p $] Ganho proporcional do PID
+  \item[$ K_i $] Ganho integral do PID
+  \item[$ K_d $] Ganho derivativo do PID
+  \item[$ G(s) $] Função de transferência de um lado do robô
+  \item[$ s $] Variável de Laplace
+  \item[$ \Omega(s) $] Velocidade da roda no domínio de Laplace
+  \item[$ U(s) $] Ciclo de trabalho no domínio de Laplace
+  \item[$ K $] Ganho em regime da planta
+  \item[$ \tau $] Constante de tempo da planta [s]
+  \item[$ N $] Horizonte de predição do MPC [passos]
+  \item[$ r_k $] Velocidade de referência no passo $k$
+  \item[$ y_k $] Velocidade da roda prevista pelo modelo no passo $k$
+  \item[$ u_k $] Ciclo de trabalho no passo $k$
+  \item[$ \Delta u_k $] Variação do ciclo de trabalho entre passos
+  \item[$ \lambda $] Peso do esforço de controle no custo do MPC
+  \item[$ \mathbf{x}_i $] Posição da partícula $i$ no PSO (conjunto de ganhos)
+  \item[$ \mathbf{v}_i $] Velocidade da partícula $i$ no PSO
+  \item[$ \mathbf{p}_i $] Melhor posição já encontrada pela partícula $i$
+  \item[$ \mathbf{g} $] Melhor posição já encontrada pelo enxame
+  \item[$ w $] Peso de inércia do PSO
+  \item[$ c_1,\ c_2 $] Coeficientes de aceleração do PSO
+  \item[$ r_1,\ r_2 $] Números aleatórios entre 0 e 1
 \end{simbolos}

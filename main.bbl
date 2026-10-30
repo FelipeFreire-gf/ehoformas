@@ -5,6 +5,12 @@
 \providecommand{\abntbstabout}[1]{}
 \abntbstabout{v-1.9.7 }
 
+\bibitem[{\AA}str{\"o}m e H{\"a}gglund 2006]{astrom2006}
+\abntrefinfo{{\AA}str{\"o}m e H{\"a}gglund}{{\AA}STR{\"O}M; H{\"A}GGLUND}{2006}
+{{\AA}STR{\"O}M, K.~J.; H{\"A}GGLUND, T. \emph{Advanced {PID} Control}.
+  Research Triangle Park: ISA -- The Instrumentation, Systems, and Automation
+  Society, 2006.}
+
 \bibitem[Bosch Sensortec 2026]{bno055}
 \abntrefinfo{Bosch Sensortec}{BOSCH SENSORTEC}{2026}
 {BOSCH SENSORTEC. \emph{{BNO055}: Intelligent 9-axis absolute orientation
@@ -12,6 +18,11 @@
 [S.l.], 2026. Dispon{\'\i}vel em:
   \url{https://www.bosch-sensortec.com/products/smart-sensor-systems/bno055/}.
   Acesso em: 28 out. 2026.}
+
+\bibitem[Camacho e Bordons 2007]{camacho2007}
+\abntrefinfo{Camacho e Bordons}{CAMACHO; BORDONS}{2007}
+{CAMACHO, E.~F.; BORDONS, C. \emph{Model Predictive Control}. 2. ed. London:
+  Springer, 2007.}
 
 \bibitem[Cytron Technologies 2026]{cytronmd10c}
 \abntrefinfo{Cytron Technologies}{CYTRON TECHNOLOGIES}{2026}

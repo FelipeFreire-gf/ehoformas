@@ -6,10 +6,13 @@ orientaram a escolha de cada um, o princípio de funcionamento de cada
 componente e a forma como eles se integram. O robô é uma plataforma de
 tração nas quatro rodas (4WD) que deve mapear um ambiente com um sensor
 LiDAR e uma câmera de profundidade e, em seguida, deslocar-se de forma
-autônoma até um ponto escolhido no mapa. Esses dois objetivos determinam
-as exigências sobre o hardware: o robô precisa medir o próprio
-deslocamento (odometria), perceber o ambiente ao redor e transmitir esses
-dados a um computador com capacidade para processá-los.
+autônoma até um ponto escolhido no mapa. Ele também serve de plataforma
+para comparar algoritmos de controle, como o PID clássico, o controle
+preditivo e técnicas bioinspiradas (Seção~\ref{sec:algoritmos}). Esses
+objetivos determinam as exigências sobre o hardware: o robô precisa medir
+o próprio deslocamento (odometria) e a velocidade de cada roda, perceber
+o ambiente ao redor e transmitir esses dados a um computador com
+capacidade para processá-los.
 
 A Tabela~\ref{tab:componentes} resume os componentes adotados. As seções
 seguintes detalham cada um deles.
@@ -90,9 +93,9 @@ de cada ciclo (decodificação $\times$4) multiplica a resolução por quatro.
 O número de contagens por volta da roda é então
 \begin{equation}
 	\label{eq:cpr}
-	N_{CPR} = 4 \cdot PPR \cdot i,
+	N_{CPR} = 4 \cdot PPR \cdot R,
 \end{equation}
-em que $i$ é a relação de redução da caixa. Com esse valor, a distância
+em que $R$ é a relação de redução da caixa. Com esse valor, a distância
 percorrida pela roda em um intervalo com $\Delta N$ contagens é
 \begin{equation}
 	\label{eq:deslocamento}

@@ -11,7 +11,8 @@ Robô 4WD que **mapeia uma área com o LiDAR e a câmera de profundidade** e dep
 
 - **Etapa 1 (atual):** mapeamento 2D com `slam_toolbox`.
 - **Etapa 2:** navegação autônoma até um ponto, com Nav2.
-- **Depois:** câmera de profundidade nos obstáculos, PID de velocidade ajustado por PSO (enxame de partículas) e outros itens.
+- **Depois:** câmera de profundidade nos obstáculos.
+- **Plataforma de controle:** comparar vários algoritmos no mesmo robô e nas mesmas condições: PID clássico (referência), MPC, bioinspirados (PSO e outros) e outros (LQR, fuzzy, adaptativo...). Em dois níveis: velocidade das rodas (nó da base, no Pi, algoritmo escolhido por parâmetro) e seguimento de trajetória (controlador do Nav2, no notebook). No TCC: seção "Plataforma para comparação de algoritmos de controle" de `editaveis/software.tex`.
 
 ---
 

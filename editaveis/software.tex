@@ -3,9 +3,9 @@
 
 Este capítulo descreve o software do robô: a base do sistema operacional e
 das bibliotecas de acesso ao hardware, as ferramentas de teste
-desenvolvidas, a organização em nós do ROS~2 e a forma como os dados
+desenvolvidas, a organização em nós do ROS~2, a forma como os dados
 fluem entre os sensores, os algoritmos de mapeamento e navegação e os
-motores.
+motores, e a estrutura usada para comparar algoritmos de controle.
 
 \section{Visão geral}
 
@@ -124,8 +124,8 @@ a rede e a interface gráfica com o sistema principal.
 
 O nó \texttt{sllidar\_node}, do pacote oficial \texttt{sllidar\_ros2} da
 Slamtec, lê o RPLIDAR C1 pela porta serial e publica cada volta no tópico
-\texttt{/scan}, como mensagem \texttt{sensor\_msgs/LaserScan}. Essa
-mensagem contém as distâncias medidas e os ângulos correspondentes.
+\texttt{/scan}, como mensagem do tipo \texttt{LaserScan} (pacote
+\texttt{sensor\_msgs}). Essa mensagem contém as distâncias medidas e os ângulos correspondentes.
 
 \subsection{Nó da base}
 
@@ -143,9 +143,10 @@ em que $v_e$ e $v_d$ são as velocidades das rodas esquerda e direita e
 $L$ é a distância entre os centros das rodas dos dois lados.
 % TODO: medir L e citar o valor aqui.
 
-Cada lado tem um controlador PID que compara a velocidade desejada com a
-velocidade medida pelo encoder e calcula o ciclo de trabalho aplicado ao
-MD10C:
+Cada lado tem um controlador de velocidade que compara a velocidade
+desejada com a velocidade medida pelo encoder e calcula o ciclo de
+trabalho aplicado ao MD10C. O algoritmo desse controlador é intercambiável
+(Seção~\ref{sec:algoritmos}). O primeiro implementado é o PID:
 \begin{equation}
 	\label{eq:pid}
 	u(t) = K_p\, e(t) + K_i \int_0^t e(\tau)\, d\tau + K_d \frac{de(t)}{dt},
@@ -153,8 +154,8 @@ MD10C:
 em que $e(t)$ é o erro de velocidade e $K_p$, $K_i$ e $K_d$ são os ganhos
 proporcional, integral e derivativo. Os parâmetros medidos na bancada (zona
 morta, curva de velocidade e constante de tempo) servem de ponto de
-partida para esses ganhos e para uma parcela de compensação direta
-(\textit{feedforward}).
+partida para esses ganhos, para uma parcela de compensação direta
+(\textit{feedforward}) e para o modelo usado pelos outros controladores.
 
 No sentido contrário, o nó da base converte as contagens dos encoders em
 velocidades das rodas (Eq.~\ref{eq:deslocamento}) e calcula a velocidade
@@ -272,13 +273,91 @@ algumas redes institucionais bloqueiam. Nesse caso, a comunicação é feita
 por um roteador dedicado ou por um servidor de descoberta (\textit{Discovery
 Server}) do próprio DDS.
 
-\section{Ajuste dos controladores por enxame de partículas}
+\section{Plataforma para comparação de algoritmos de controle}
+\label{sec:algoritmos}
 
-Os ganhos dos controladores PID da Eq.~(\ref{eq:pid}) serão ajustados no
-robô físico por otimização por enxame de partículas (PSO)
-\cite{kennedy1995pso}. No PSO, cada partícula representa um conjunto
-candidato de ganhos $\mathbf{x}_i = (K_p, K_i, K_d)$. A cada iteração,
-sua velocidade e sua posição são atualizadas por
+Além de mapear e navegar, o robô foi projetado como plataforma de testes
+para comparar diferentes algoritmos de controle no mesmo hardware e nas
+mesmas condições, como o PID clássico, o controle preditivo baseado em
+modelo (MPC) e técnicas bioinspiradas. Por isso, a arquitetura separa o
+algoritmo de controle do restante do sistema. Os drivers, a odometria, o
+mapeamento e a navegação são os mesmos em todos os ensaios, e só o
+controlador muda.
+
+\subsection{Níveis de controle}
+
+Os algoritmos podem ser comparados em dois níveis:
+
+\begin{itemize}
+	\item \textbf{Controle de velocidade das rodas}, no nó da base, no
+	Raspberry Pi. O controlador recebe a velocidade desejada de cada lado
+	(Eq.~\ref{eq:cinematica-inversa}) e a velocidade medida pelo encoder e
+	calcula o ciclo de trabalho aplicado ao MD10C, limitado a $\pm$100\%.
+	Todos os controladores desse nível seguem a mesma interface, e o
+	algoritmo em uso é escolhido por um parâmetro do ROS~2, sem alterar o
+	resto do nó;
+	\item \textbf{Seguimento de trajetória}, no notebook. O controlador
+	recebe o caminho planejado pelo Nav2 e a posição estimada do robô e
+	gera os comandos de velocidade em \texttt{/cmd\_vel}. O Nav2 trata o
+	controlador local como um módulo (\textit{plugin}) que pode ser
+	trocado por configuração. Assim, é possível usar os controladores que
+	já vêm com ele ou escrever controladores próprios.
+\end{itemize}
+
+\subsection{Modelo da planta}
+
+Vários dos algoritmos dependem de um modelo do sistema, seja para
+sintonizar ganhos, seja para prever o comportamento futuro. Esse modelo é
+obtido dos ensaios de bancada (Seção~\ref{sec:bancada}). A varredura de
+ciclo de trabalho fornece a zona morta e o ganho em regime $K$, e o ensaio
+de degrau fornece a constante de tempo $\tau$. Com esses dados, cada lado
+do robô pode ser aproximado por um sistema de primeira ordem:
+\begin{equation}
+	\label{eq:planta}
+	G(s) = \frac{\Omega(s)}{U(s)} = \frac{K}{\tau s + 1},
+\end{equation}
+em que $\Omega(s)$ é a velocidade da roda e $U(s)$ é o ciclo de trabalho,
+já descontada a zona morta. Para os controladores digitais, o modelo é
+discretizado no período de amostragem do nó da base.
+
+\subsection{Algoritmos previstos}
+
+\textbf{PID clássico.} É a referência de comparação, por ser o controlador
+mais usado na indústria \cite{astrom2006}. Ele segue a Eq.~(\ref{eq:pid}),
+com os ganhos sintonizados a partir do modelo da Eq.~(\ref{eq:planta})
+por métodos clássicos. Ele inclui proteção contra acúmulo do termo
+integral quando o ciclo de trabalho satura (\textit{anti-windup}).
+
+\textbf{Controle preditivo baseado em modelo (MPC).} A cada período de
+amostragem, o MPC usa o modelo da planta para prever a velocidade ao longo
+de um horizonte de $N$ passos e escolhe a sequência de comandos que
+minimiza um custo, respeitando as restrições do sistema
+\cite{camacho2007}:
+\begin{equation}
+	\label{eq:mpc}
+	\min_{u_0,\ldots,u_{N-1}} \; \sum_{k=1}^{N}
+		\left(r_k - y_k\right)^2 + \lambda \sum_{k=0}^{N-1} \Delta u_k^2
+	\quad \mbox{sujeito a} \quad |u_k| \le 1,
+\end{equation}
+em que $r_k$ é a velocidade de referência, $y_k$ é a velocidade da roda
+prevista pelo modelo, $\Delta u_k$ é a variação do comando entre passos e
+$\lambda$ pondera o esforço de controle. Só o primeiro comando da
+sequência é aplicado, e o cálculo se repete no período seguinte. A
+vantagem em relação ao PID é tratar diretamente a saturação do ciclo de
+trabalho. A desvantagem é o custo de calcular a otimização a cada
+período, que precisa caber no processador do Raspberry Pi 3. Por isso,
+horizonte, período de amostragem e formulação serão escolhidos
+considerando o tempo de cálculo medido na placa. No nível de seguimento de
+trajetória, executado no notebook, essa limitação é menor.
+
+\textbf{Algoritmos bioinspirados.} São métodos de otimização inspirados em
+fenômenos naturais. Aqui eles são usados para sintonizar os parâmetros dos
+controladores diretamente no robô físico, sem depender de um modelo
+exato. O primeiro método previsto é a otimização por enxame de partículas
+(PSO) \cite{kennedy1995pso}, aplicada aos ganhos do PID. No PSO, cada
+partícula representa um conjunto candidato de ganhos
+$\mathbf{x}_i = (K_p, K_i, K_d)$. A cada iteração, sua velocidade e sua
+posição são atualizadas por
 \begin{equation}
 	\label{eq:pso}
 	\mathbf{v}_i \leftarrow w\,\mathbf{v}_i
@@ -290,9 +369,35 @@ em que $\mathbf{p}_i$ é a melhor posição já encontrada pela partícula,
 $\mathbf{g}$ é a melhor posição encontrada pelo enxame, $w$ é o peso de
 inércia, $c_1$ e $c_2$ são coeficientes de aceleração e $r_1$ e $r_2$ são
 números aleatórios entre 0 e 1. Cada avaliação consiste em aplicar os
-ganhos no robô, comandar uma sequência de velocidades e medir um índice
-de desempenho do erro de velocidade, como a integral do erro absoluto.
-Cada tentativa deve durar pelo menos cerca de cinco constantes de tempo
-do motor, medidas no ensaio de degrau, para que a roda tenha tempo de
-chegar ao regime. Para isso, o nó da base receberá os ganhos como
-parâmetros do ROS~2, que o otimizador pode trocar sem reiniciar o nó.
+parâmetros no robô, executar um ensaio e calcular um índice de
+desempenho. Cada tentativa deve durar pelo menos cerca de cinco constantes
+de tempo do motor, para que a roda chegue ao regime. A mesma estrutura
+serve para outros algoritmos bioinspirados e para sintonizar parâmetros
+de outros controladores, como os pesos do MPC.
+
+\textbf{Outros algoritmos.} Como a interface do controlador é comum, novos
+algoritmos podem ser incluídos sem mudar o resto do sistema. Exemplos são
+o regulador linear quadrático (LQR), o controle \textit{fuzzy} e o
+controle adaptativo.
+% TODO: definir a lista final de algoritmos que serao comparados.
+
+\subsection{Metodologia de comparação}
+
+Para que a comparação seja justa, todos os algoritmos são submetidos aos
+mesmos ensaios:
+
+\begin{itemize}
+	\item degraus e rampas de velocidade em cada roda, com o robô suspenso
+	e no chão;
+	\item trajetórias de referência, como reta, curva e percurso fechado,
+	executadas no mapa construído pelo \texttt{slam\_toolbox};
+	\item repetição de cada ensaio para estimar a variabilidade dos
+	resultados.
+\end{itemize}
+
+Os critérios de comparação são o erro de seguimento, medido por índices
+como a integral do erro absoluto (IAE), o sobressinal, o tempo de
+acomodação, o esforço de controle e o tempo de cálculo de cada algoritmo
+no processador em que ele roda. Os tópicos de referência, de medida e de
+comando são gravados com a ferramenta \texttt{ros2 bag} durante os
+ensaios, para que a análise seja feita depois com os mesmos dados.

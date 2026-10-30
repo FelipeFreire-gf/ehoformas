@@ -1,8 +1,125 @@
-\chapter*[Introdução]{Introdução}
-\addcontentsline{toc}{chapter}{Introdução}
+\chapter[Introdução]{Introdução}
+\label{cap:introducao}
 
-Este documento apresenta considerações gerais e preliminares relacionadas 
-à redação de relatórios de Projeto de Graduação da Faculdade UnB Gama 
-(FGA). São abordados os diferentes aspectos sobre a estrutura do trabalho, 
-uso de programas de auxilio a edição, tiragem de cópias, encadernação, etc.
+\section{Contextualização}
 
+Robôs móveis autônomos deixaram de ser exclusivos de laboratórios e hoje
+aparecem em armazéns, hospitais, inspeção industrial e residências. Para
+se deslocar sozinho em um ambiente, um robô precisa resolver três
+problemas ligados entre si \cite{siegwart2011}. Ele precisa perceber o
+ambiente e construir um mapa dele. Precisa saber onde está nesse mapa. E
+precisa planejar e executar o movimento até o destino. Os dois primeiros
+problemas são tratados em conjunto pelas técnicas de localização e
+mapeamento simultâneos (SLAM). O terceiro depende do planejamento de
+caminho e, na base de tudo, do controle dos motores, que transforma os
+comandos de velocidade em movimento real das rodas.
+
+O ROS~2 (\textit{Robot Operating System 2}) se tornou a base comum para
+integrar essas partes \cite{macenski2022ros2}. Ele oferece drivers para
+sensores comerciais, algoritmos prontos de SLAM e navegação e um modelo
+de comunicação que permite distribuir o processamento entre vários
+computadores. Com isso, um robô funcional pode ser montado a partir de
+componentes acessíveis, como computadores de placa única, sensores LiDAR
+de baixo custo e motores com encoder.
+
+O controle de movimento continua sendo uma área com muitas alternativas.
+O controlador PID é o mais usado na prática, pela simplicidade e pela
+robustez \cite{astrom2006}. O controle preditivo baseado em modelo (MPC)
+trata explicitamente as restrições do sistema, ao custo de mais
+processamento \cite{camacho2007}. Já os algoritmos bioinspirados, como a
+otimização por enxame de partículas (PSO), permitem sintonizar
+controladores sem um modelo exato da planta \cite{kennedy1995pso}. Cada
+abordagem tem vantagens e limitações que dependem do sistema controlado e
+do hardware em que ela roda.
+
+\section{Justificativa}
+
+Grande parte das comparações entre algoritmos de controle é feita em
+simulação. A simulação é útil, mas não reproduz bem efeitos presentes em
+um robô real: zona morta e saturação dos motores, atrito, escorregamento
+das rodas, ruído nos sensores, atrasos de comunicação e o limite de
+processamento do computador embarcado. Esses efeitos podem mudar qual
+algoritmo tem o melhor desempenho na prática.
+
+Comparar algoritmos em um robô real, por outro lado, exige uma plataforma
+em que o controle seja acessível em todos os níveis. Muitas plataformas
+comerciais usam controladoras de motor que fazem o controle de velocidade
+dentro da própria placa, o que impede trocar o algoritmo desse nível.
+Além disso, para que a comparação seja justa, todos os algoritmos
+precisam ser avaliados no mesmo hardware, com os mesmos ensaios e as
+mesmas métricas. Para isso, o software deve permitir trocar o controlador
+sem mexer no restante do sistema.
+
+Este trabalho propõe o ARENA, uma plataforma robótica móvel construída com
+componentes de custo acessível. Os drivers de motor não fazem controle
+próprio, então o algoritmo de controle fica inteiramente no software. Do
+ponto de vista da Engenharia de Software, o projeto exige uma arquitetura
+modular, com interfaces bem definidas entre os drivers, a odometria, a
+navegação e os controladores. Isso permite incluir novos algoritmos sem
+alterar o resto do sistema. A plataforma também pode servir de base para
+outros trabalhos e para o ensino de robótica e controle.
+
+\section{Questões de pesquisa}
+
+Este trabalho busca responder às seguintes questões:
+
+\begin{enumerate}
+	\item É possível construir, com componentes de baixo custo e ROS~2, um
+	robô 4WD capaz de mapear um ambiente e navegar de forma autônoma até
+	um ponto escolhido no mapa?
+	\item Como estruturar o software do robô para que diferentes
+	algoritmos de controle possam ser trocados e comparados nas mesmas
+	condições?
+	\item Como o PID clássico, o MPC e os algoritmos bioinspirados se
+	comparam, em um robô real, quanto ao erro de seguimento, ao esforço de
+	controle e ao custo computacional?
+	\item Quais desses algoritmos podem ser executados no computador
+	embarcado e quais precisam ser executados na estação de base?
+\end{enumerate}
+
+\section{Objetivos}
+
+\subsection{Objetivo geral}
+
+Desenvolver o ARENA, uma plataforma robótica móvel de tração nas quatro
+rodas baseada em ROS~2, capaz de mapear um ambiente e navegar de forma
+autônoma, e usá-la para comparar experimentalmente algoritmos de controle
+(PID clássico, controle preditivo baseado em modelo e algoritmos
+bioinspirados) sob as mesmas condições de ensaio.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}
+	\item Montar e integrar o hardware do robô: computador embarcado,
+	motores com encoder, drivers de motor, IMU, LiDAR, câmera de
+	profundidade e sistema de alimentação;
+	\item Caracterizar experimentalmente os motores e os encoders e obter
+	um modelo da dinâmica de cada lado do robô;
+	\item Desenvolver o nó da base em ROS~2, com controle de velocidade das
+	rodas por algoritmo intercambiável, cálculo da odometria e parada
+	automática em caso de falha de comunicação;
+	\item Integrar os sensores ao ROS~2 e combinar a odometria das rodas com
+	a IMU por um filtro de Kalman estendido;
+	\item Construir o mapa do ambiente com o \texttt{slam\_toolbox} e
+	realizar a navegação autônoma até um ponto do mapa com o Nav2;
+	\item Implementar os controladores PID clássico, MPC e bioinspirados
+	nos níveis de velocidade das rodas e de seguimento de trajetória;
+	\item Definir um conjunto padronizado de ensaios e métricas e comparar
+	os algoritmos quanto ao desempenho e ao custo computacional;
+	\item Documentar e disponibilizar o código-fonte e os procedimentos de
+	montagem e de ensaio, para que a plataforma possa ser reproduzida e
+	ampliada.
+\end{enumerate}
+
+\section{Organização do trabalho}
+
+Este trabalho está organizado da seguinte forma. O
+Capítulo~\ref{cap:hardware} descreve a arquitetura de hardware do robô:
+os componentes escolhidos, o funcionamento de cada um e a forma como se
+integram. O Capítulo~\ref{cap:software} descreve a arquitetura de
+software: as ferramentas de validação dos componentes, a organização do
+sistema em nós do ROS~2, o fluxo de dados entre o robô e a estação de
+base e a estrutura usada para comparar os algoritmos de controle,
+incluindo a metodologia dos ensaios.
+% TODO: incluir aqui os capitulos que forem acrescentados (referencial
+% teorico, resultados parciais, cronograma, consideracoes finais).

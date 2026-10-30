@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 09:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 10:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -991,116 +991,105 @@ l.2
 
 ]) (./editaveis/abreviaturas.tex [17
 
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}] [18
+{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}] [18]) (./editaveis/simbol
+os.tex
+[19
 
-]) (./editaveis/simbolos.tex [19
 
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf-dist/font
-s/enc/dvips/lm/lm-mathsy.enc}] [20
+{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}] [20])
+(./fixos/indiceautomatico.tex (./main.toc [21
 
-]) (./fixos/indiceautomatico.tex
-(./main.toc
+]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 44.
- [21]) [22]) (./editaveis/introducao.tex) (./editaveis/hardware.tex
+(Font)              <14.4> on input line 55.
+) [22])
+(./editaveis/introducao.tex
+Cap\'{\i }tulo 1.
 [23
 
 
-] [24
+]
+Package babel Info: 'brazil' activates 'portuges' shorthands.
+(babel)             Reported on input line 96.
+ [24]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+03.
+ (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+))
+(./editaveis/hardware.tex [25] [26
 
 ]
-Cap\'{\i }tulo 1.
-[25]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 8
-7.
- (/usr/share/texmf-dist/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-Package babel Info: 'brazil' activates 'portuges' shorthands.
-(babel)             Reported on input line 111.
- [26{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [27]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-67.
+Cap\'{\i }tulo 2.
+[27{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 9
+0.
 
-(/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-Overfull \hbox (1.04474pt too wide) in paragraph at lines 166--172
+(/usr/share/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [28{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [29]
+Overfull \hbox (1.04474pt too wide) in paragraph at lines 169--175
 []\T1/lmr/m/n/12 O C1 foi es-co-lhido por ter custo baixo, ter dri-ver ofi-cial
  para ROS 2 (\T1/lmtt/m/n/12 sllidar_ros2\T1/lmr/m/n/12 )
  []
 
-[28]) (./editaveis/software.tex [29] [30]
-Cap\'{\i }tulo 2.
-
-Underfull \vbox (badness 1881) has occurred while \output is active []
-
- [31
+[30]) (./editaveis/software.tex [31] [32]
+Cap\'{\i }tulo 3.
+[33
 
 ]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 55.
-
-[32]
-Overfull \hbox (51.05759pt too wide) in paragraph at lines 125--129
-\T1/lmr/m/n/12 C1 pela porta se-rial e pu-blica cada volta no tó-pico \T1/lmtt/
-m/n/12 /scan\T1/lmr/m/n/12 , como men-sa-gem \T1/lmtt/m/n/12 sensor_msgs/LaserS
-can\T1/lmr/m/n/12 .
- []
-
-[33] [34{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
-Overfull \hbox (0.79456pt too wide) in paragraph at lines 260--265
+ [34] [35] [36{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+Overfull \hbox (0.79456pt too wide) in paragraph at lines 261--266
 []\T1/lmr/m/n/12 A ár-vore de trans-for-ma-ções se-gue a ca-deia \T1/lmtt/m/n/1
 2 map$\OMS/lmsy/m/n/12 !$\T1/lmtt/m/n/12 odom$\OMS/lmsy/m/n/12 !$\T1/lmtt/m/n/1
 2 base_link$\OMS/lmsy/m/n/12 !$\T1/lmr/m/n/12 {\T1/lmtt/m/n/12 laser\T1/lmr/m/n
 /12 , \T1/lmtt/m/n/12 imu\T1/lmr/m/n/12 }.
  []
 
-[35]) (./main.bbl (./main.brf)
+[37] [38] [39]) (./main.bbl (./main.brf)
 \tf@brf=\write5
 \openout5 = `main.brf'.
 
- [36]
+ [40]
 bibitemlist
-) (./editaveis/apendices.tex [37
+[41
 
-] [38
-
-]
+]) (./editaveis/apendices.tex [42]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\uppercase' on input line 4.
 
-[39
+[43
 
-] [40]
+
+] [44]
 AP\^ENDICE A.
-[41
+[45
 
-] [42
+] [46
 
 ]
 AP\^ENDICE B.
-) (./editaveis/anexos.tex [43] [44
+) (./editaveis/anexos.tex [47] [48
 
 ]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\uppercase' on input line 4.
 
-[45
+[49
 
-] [46]
+] [50]
 ANEXO A.
-[47
+[51
 
-] [48
+] [52
 
 ]
 ANEXO B.
-)
-No file main.ind.
-[49]
+) (./main.ind) [53]
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
@@ -1110,7 +1099,8 @@ No file main.ind.
 \tf@toc=\write8
 \openout8 = `main.toc'.
 
- 
+
+
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (./main.aux)
  ***********
@@ -1118,31 +1108,34 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.brf' has not changed.
-(rerunfilecheck)             Checksum: C5C9703751BCDA6662C15C53462C85B0;716.
+(rerunfilecheck)             Checksum: B765A9E1062BF9369AACC3A6B9C5551B;1076.
  ) 
 Here is how much of TeX's memory you used:
- 17803 strings out of 469416
- 288293 string characters out of 5467572
- 730223 words of memory out of 5000000
- 45934 multiletter control sequences out of 15000+600000
- 709305 words of font info for 85 fonts, out of 8000000 for 9000
+ 17882 strings out of 469416
+ 289254 string characters out of 5467572
+ 732565 words of memory out of 5000000
+ 45975 multiletter control sequences out of 15000+600000
+ 718139 words of font info for 88 fonts, out of 8000000 for 9000
  42 hyphenation exceptions out of 8191
- 104i,13n,110p,655b,681s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 104i,13n,110p,691b,742s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dis
 t/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm
-/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/
-texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/p
-ublic/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/
-share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/
-type1/public/lm/lmri12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss12.
-pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf-d
-ist/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/s
-hare/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (51 pages, 475167 bytes).
+/lmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/
+texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/p
+ublic/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr
+/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/t
+ype1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb
+></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf-dist
+/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/
+lmss17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/shar
+e/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type
+1/public/lm/lmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></
+usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf-dist/fo
+nts/type1/public/lm/lmtt12.pfb>
+Output written on main.pdf (55 pages, 529558 bytes).
 PDF statistics:
- 663 PDF objects out of 1000 (max. 8388607)
- 581 compressed objects within 6 object streams
- 139 named destinations out of 1000 (max. 500000)
- 378 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 804 PDF objects out of 1000 (max. 8388607)
+ 712 compressed objects within 8 object streams
+ 169 named destinations out of 1000 (max. 500000)
+ 466 words of extra memory for PDF output out of 10000 (max. 10000000)
 
