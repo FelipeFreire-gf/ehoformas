@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.28)  28 OCT 2026 14:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.28)  30 OCT 2026 09:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -869,23 +869,18 @@ Package epstopdf Info: Source file: <figuras/capa.eps>
 (epstopdf)                    date: 2026-10-28 16:37:26
 (epstopdf)                    size: 649636 bytes
 (epstopdf)             Output file: <figuras/capa-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:33:38
+(epstopdf)                    date: 2026-10-30 09:24:44
 (epstopdf)                    size: 106109 bytes
 (epstopdf)             Command: <repstopdf --outfile=figuras/capa-eps-converted
 -to.pdf figuras/capa.eps>
 (epstopdf)             \includegraphics on input line 12.
-runsystem(repstopdf --outfile=figuras/capa-eps-converted-to.pdf figuras/capa.ep
-s)...executed safely (allowed).
-
-Package epstopdf Info: Result file: <figuras/capa-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:36:04
-(epstopdf)                    size: 106109 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <figuras/capa-eps-converted-to.pdf, id=5, 814.04124pt x 1150.2975pt>
 File: figuras/capa-eps-converted-to.pdf Graphic file (type pdf)
 <use figuras/capa-eps-converted-to.pdf>
 Package pdftex.def Info: figuras/capa-eps-converted-to.pdf  used on input line 
 12.
-(pdftex.def)             Requested size: 597.52437pt x 844.34396pt.
+(pdftex.def)             Requested size: 603.499pt x 853.52373pt.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts
@@ -1108,17 +1103,12 @@ Package epstopdf Info: Source file: <figuras/fig01.eps>
 (epstopdf)                    date: 2026-10-28 16:37:26
 (epstopdf)                    size: 2193446 bytes
 (epstopdf)             Output file: <figuras/fig01-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:33:39
+(epstopdf)                    date: 2026-10-30 09:24:46
 (epstopdf)                    size: 42031 bytes
 (epstopdf)             Command: <repstopdf --outfile=figuras/fig01-eps-converte
 d-to.pdf figuras/fig01.eps>
 (epstopdf)             \includegraphics on input line 115.
-runsystem(repstopdf --outfile=figuras/fig01-eps-converted-to.pdf figuras/fig01.
-eps)...executed safely (allowed).
-
-Package epstopdf Info: Result file: <figuras/fig01-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-10-28 14:36:05
-(epstopdf)                    size: 42031 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <figuras/fig01-eps-converted-to.pdf, id=506, 1204.5pt x 903.375pt>
 File: figuras/fig01-eps-converted-to.pdf Graphic file (type pdf)
 <use figuras/fig01-eps-converted-to.pdf>
@@ -1196,7 +1186,7 @@ Package rerunfilecheck Info: File `main.brf' has not changed.
 Here is how much of TeX's memory you used:
  18072 strings out of 469416
  293011 string characters out of 5467572
- 731844 words of memory out of 5000000
+ 731840 words of memory out of 5000000
  46104 multiletter control sequences out of 15000+600000
  731376 words of font info for 92 fonts, out of 8000000 for 9000
  42 hyphenation exceptions out of 8191
@@ -1214,7 +1204,7 @@ m/lmss12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/shar
 e/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf-dist/fonts/ty
 pe1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pf
 b></usr/share/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on main.pdf (73 pages, 616469 bytes).
+Output written on main.pdf (73 pages, 616483 bytes).
 PDF statistics:
  988 PDF objects out of 1000 (max. 8388607)
  876 compressed objects within 9 object streams

@@ -10,15 +10,16 @@
 \newcommand{\membroConvidadoDois}[1]{\def\imprimirmembroconvidadodois{#1}}
 
 \newcommand\BackgroundPic{%
+	% A imagem e 1% maior que a pagina e fica centrada nela, sangrando 0,5%
+	% de cada lado. Assim nao sobra faixa branca nas bordas por arredondamento.
+	% Sem keepaspectratio: a imagem (811 x 1146) e um pouco mais larga que o A4.
 	\put(0,0){%
-		\parbox[b][\paperheight]{\paperwidth}{%
-			\vfill
-			\centering
-			\includegraphics[width=\paperwidth,height=\paperheight,%
-				keepaspectratio]{figuras/capa.eps}%
-			\vfill
-		}
-	}
+		\makebox[\paperwidth][c]{%
+			\raisebox{-0.005\paperheight}{%
+				\includegraphics[width=1.01\paperwidth,height=1.01\paperheight]{figuras/capa.eps}%
+			}%
+		}%
+	}%
 }
 
 \renewcommand{\imprimircapa}{%
