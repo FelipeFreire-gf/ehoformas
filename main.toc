@@ -7,89 +7,59 @@
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{Introdução}{27}{chapter*.23}%
+\contentsline {chapter}{Introdução}{23}{chapter*.19}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Arquitetura de Hardware}}{29}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Unidade de processamento embarcada}{29}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Chassi, motores e encoders}{30}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Drivers de motor}{31}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Unidade de medição inercial}{31}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Sensor LiDAR}{32}{section.1.5}%
-\contentsline {section}{\numberline {1.6}Câmera de profundidade}{32}{section.1.6}%
-\contentsline {section}{\numberline {1.7}Alimentação}{32}{section.1.7}%
-\contentsline {section}{\numberline {1.8}Integração dos componentes}{33}{section.1.8}%
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Arquitetura de Hardware}}{25}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Unidade de processamento embarcada}{25}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Chassi, motores e encoders}{26}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Drivers de motor}{27}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Unidade de medição inercial}{27}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Sensor LiDAR}{28}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Câmera de profundidade}{28}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Alimentação}{28}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Integração dos componentes}{29}{section.1.8}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Arquitetura de Software}}{35}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Visão geral}{35}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Sistema operacional e acesso ao hardware}{35}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Ferramentas de validação dos componentes}{36}{section.2.3}%
-\contentsline {section}{\numberline {2.4}ROS 2}{36}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Nós embarcados no Raspberry Pi}{37}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Driver do LiDAR}{37}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Nó da base}{37}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Driver da IMU}{38}{subsection.2.5.3}%
-\contentsline {subsection}{\numberline {2.5.4}Transformações estáticas}{38}{subsection.2.5.4}%
-\contentsline {section}{\numberline {2.6}Nós executados na estação de base}{38}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}Fusão de sensores}{38}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}Mapeamento}{39}{subsection.2.6.2}%
-\contentsline {subsection}{\numberline {2.6.3}Navegação}{39}{subsection.2.6.3}%
-\contentsline {section}{\numberline {2.7}Integração do software}{39}{section.2.7}%
-\contentsline {section}{\numberline {2.8}Ajuste dos controladores por enxame de partículas}{40}{section.2.8}%
-\contentsline {part}{\partnumberline {I}\MakeTextUppercase []{Aspectos Gerais}}{41}{part.1}%
-\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Aspectos Gerais}}{43}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Composição e estrutura do trabalho}{43}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Considerações sobre formatação básica do relatório}{44}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Tipo de papel, fonte e margens}{44}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Numeração de Páginas}{45}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Espaços e alinhamento}{45}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Quebra de Capítulos e Aproveitamento de Páginas}{45}{subsection.3.2.4}%
-\contentsline {section}{\numberline {3.3}Cópias}{46}{section.3.3}%
-\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{Considerações sobre os Elementos Textuais}}{47}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Introdução}{47}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Desenvolvimento}{47}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Uso de editores de texto}{48}{section.4.3}%
-\contentsline {part}{\partnumberline {II}\MakeTextUppercase []{Texto e Pós Texto}}{49}{part.2}%
-\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Elementos do Texto}}{51}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Corpo do Texto}{51}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Títulos de capítulos e seções}{51}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Notas de rodapé}{51}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Equações}{52}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Figuras e Gráficos}{52}{section.5.5}%
-\contentsline {section}{\numberline {5.6}Tabela}{53}{section.5.6}%
-\contentsline {section}{\numberline {5.7}Citação de Referências}{54}{section.5.7}%
-\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{Elementos do Pós-Texto}}{57}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Referências Bibliográficas}{57}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Anexos}{57}{section.6.2}%
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Arquitetura de Software}}{31}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Visão geral}{31}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Sistema operacional e acesso ao hardware}{31}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Ferramentas de validação dos componentes}{32}{section.2.3}%
+\contentsline {section}{\numberline {2.4}ROS 2}{32}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Nós embarcados no Raspberry Pi}{33}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Driver do LiDAR}{33}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Nó da base}{33}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Driver da IMU}{34}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Transformações estáticas}{34}{subsection.2.5.4}%
+\contentsline {section}{\numberline {2.6}Nós executados na estação de base}{34}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Fusão de sensores}{34}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Mapeamento}{35}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Navegação}{35}{subsection.2.6.3}%
+\contentsline {section}{\numberline {2.7}Integração do software}{35}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Ajuste dos controladores por enxame de partículas}{36}{section.2.8}%
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{59}{section*.27}%
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{37}{section*.23}%
 \renewcommand *{\cftappendixname }{AP\^ENDICE \space }
 \setlength {\cftpartindent }{\cftlastnumwidth } \setlength {\cftpartnumwidth }{2em}
 \cftinsert {A}
-\contentsline {part}{\uppercase {Ap\^endices}}{61}{section*.28}%
+\contentsline {part}{\uppercase {Ap\^endices}}{39}{section*.24}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Primeiro Apêndice}}{63}{appendix.A}%
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Primeiro Apêndice}}{41}{appendix.A}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {B}\MakeTextUppercase []{Segundo Apêndice}}{65}{appendix.B}%
+\contentsline {appendix}{\chapternumberline {B}\MakeTextUppercase []{Segundo Apêndice}}{43}{appendix.B}%
 \cftinsert {AAA}
 \renewcommand *{\cftappendixname }{ANEXO \space }
 \setlength {\cftpartindent }{\cftlastnumwidth } \setlength {\cftpartnumwidth }{2em}
 \cftinsert {A}
-\contentsline {part}{\uppercase {Anexos}}{67}{section*.29}%
+\contentsline {part}{\uppercase {Anexos}}{45}{section*.25}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Primeiro Anexo}}{69}{appendix.anexochapback.1}%
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Primeiro Anexo}}{47}{appendix.anexochapback.1}%
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
 \cftinsert {A}
-\contentsline {appendix}{\chapternumberline {B}\MakeTextUppercase []{Segundo Anexo}}{71}{appendix.anexochapback.2}%
+\contentsline {appendix}{\chapternumberline {B}\MakeTextUppercase []{Segundo Anexo}}{49}{appendix.anexochapback.2}%
